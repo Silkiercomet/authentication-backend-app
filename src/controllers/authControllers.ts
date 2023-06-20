@@ -15,7 +15,7 @@ export const signup = async (req:Request,res:Response) => {
         const hashedPassword = await bcrypt.hash(password, 10)
         const user:UserModel = await User.create({username, password: hashedPassword})
         
-        const token = jwt.sign({id:user._id}, extractStringEnvVar("JWT"))
+        const token = jwt.sign({id:user._id}, extractStringEnvVar("JWT"), {expiresIn: '200000s'})
         res.status(201).json({ token });
     } catch (error) {
         res.status(500).json({message: "Something wen wrong"})
